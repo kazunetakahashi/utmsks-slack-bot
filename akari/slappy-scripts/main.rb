@@ -3,7 +3,7 @@
 #
 # # called when start up
 hello do
-  puts 'あかり起動したよ〜'
+  puts 'successfly connected by akari'
 end
 #
 #

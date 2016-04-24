@@ -3,7 +3,7 @@
 #
 # # called when start up
 hello do
-  puts '起動したよ〜'
+  puts 'successfly connected by nene'
 end
 #
 #
