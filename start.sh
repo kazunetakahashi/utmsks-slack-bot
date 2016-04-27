@@ -1,4 +1,4 @@
-ARRAY=(airi akari nene yoko futaba teru)
+ARRAY=(airi akari nene yoko futaba teru kirin)
 
 cur_dir=`pwd`
 
