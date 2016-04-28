@@ -42,16 +42,18 @@ end
 schedule '0 19 * * *' do
   json = make_weather_json("130010")
   str = "こんばんは、兄さん。" + otenki(json, 1) + "今日もお勤め、お疲れ様でした。"
-  say str, channel: '#bottest'
+  say str, channel: '#random'
 end
 
 schedule '*/5 * * * *' do
   t = rain_beginning()
   raining = !(t.nil?)
+  ch = (7 <= Time.now.hour && Time.now.hour < 22) ? '#random' : '#bottest'
   if raining && !@now_raining
-    say "駒場では、#{t.strftime("%H時%M分")}から雨が降り出すようです。お気をつけて。", channel: '#random'
+    str = "駒場では、#{t.strftime("%H時%M分")}から雨が降り出すようです。お気をつけて。"
+    say str, channel: ch
   elsif !raining && @now_raining
-    say "駒場では、雨が止んだようですね。しばらく降らなそうです。", channel: '#bottest'
+    say "駒場では、雨が止んだようですね。しばらく降らなそうです。", channel: ch
   end
   @now_raining = !(t.nil?)
 end
