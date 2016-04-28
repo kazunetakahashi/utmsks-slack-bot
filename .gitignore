@@ -1,5 +1,6 @@
 slappy_config.rb
 nohup.out
+ignore.rb
 
 # Ignore other unneeded files.
 doc/
