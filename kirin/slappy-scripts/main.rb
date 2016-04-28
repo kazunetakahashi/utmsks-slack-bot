@@ -54,7 +54,7 @@ schedule '45 6 * * 0,6' do
 end
 
 schedule '45 16 * * *' do
-  res = syobocal_today_morning()
+  res = syobocal_today_evening()
   say "先輩、今晩のアニメの放送予定は、", channel: '#anime'
   res.each{|prog|
     say make_title(prog, false), channel: '#anime'
