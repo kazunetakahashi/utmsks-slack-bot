@@ -14,7 +14,7 @@ end
 schedule '30 12 * * *' do
   @kobanashi.each{|sch|
     if time_match(sch[1], 0)
-      say "<@#{sch[0]}> 今日は TA 小話の日だな。少し早く実習室へ行って、スタンバイだ。発表、期待しているぜ。", channel: 'ta_kobanashi'
+      say "<@#{sch[0]}> 今日は TA 小話の日だな。少し早く実習室へ行って、スタンバイだ。発表、期待しているぜ。", channel: '#ta_kobanashi'
     end
   }
 end
@@ -22,7 +22,7 @@ end
 schedule '0 10 * * *' do
   @kobanashi.each{|sch|
     if time_match(sch[1], 3)
-      say "<@#{sch[0]}> 今週は TA 小話があるぞ。準備は進んでいるかな。", channel: 'ta_kobanashi'
+      say "<@#{sch[0]}> 今週は TA 小話があるぞ。準備は進んでいるかな。", channel: '#ta_kobanashi'
     end
   }
 end
@@ -30,7 +30,7 @@ end
 schedule '0 17 * * *' do
   @kobanashi.each{|sch|
     if time_match(sch[1], 7)
-      say "<@#{sch[0]}> 来週の TA 小話、任せたぜ。", channel: 'ta_kobanashi'
+      say "<@#{sch[0]}> 来週の TA 小話、任せたぜ。", channel: '#ta_kobanashi'
     end
   }
 end
@@ -45,7 +45,7 @@ schedule '0 10 * * *' do
         str += "「#{sch[0]}」"
       end
       str += "が、今日の#{sch[1].strftime('%H時%M分')}から始まるぞ。頑張ろうぜ。"
-      say str, channel: 'general'
+      say str, channel: '#general'
     end
   }
 end
@@ -55,7 +55,7 @@ end
 schedule '0 10 * * *' do
   @events.each{|sch|
     if time_match(sch[1], 0)
-      say "今日の#{sch[1].strftime('%H時%M分')}から、#{sch[0]}があるな。張り切っていこう。", channel: 'general'
+      say "今日の#{sch[1].strftime('%H時%M分')}から、#{sch[0]}があるな。張り切っていこう。", channel: '#general'
     end
   }
 end

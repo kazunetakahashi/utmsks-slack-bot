@@ -1,38 +1,6 @@
 # coding: utf-8
-require 'faraday'
-require 'json'
 
-conn = Faraday::Connection.new(:url => 'http://weather.livedoor.com') do |builder|
-  builder.use Faraday::Request::UrlEncoded
-  builder.use Faraday::Response::Logger
-  builder.use Faraday::Adapter::NetHttp
-end
-  
-def otenki(json, num)
-  city = json['location']['city']
-  day = json['forecasts'][num]['dateLabel']
-  weather = json['forecasts'][num]['telop']
-  max = json['forecasts'][num]['temperature']['max']
-  min = json['forecasts'][num]['temperature']['min']
-  str = ""
-  str += city + "の" + day + "の天気は" + weather + "です。"
-  if weather.include?("雨")
-    str += "傘をお持ちになってください。"
-  end
-  if !max.nil?
-    str += "最高気温は" + max['celsius'] + "度"
-  end
-  if !max.nil? && !min.nil?
-    str += "、"
-  end
-  if !min.nil?
-    str += "最低気温は" + min['celsius'] + "度"
-  end
-  if !max.nil? || !min.nil?
-    str += "です。"
-  end
-  return str
-end
+@now_raining
 
 hear MYNAME do |event|
   p event.text
@@ -43,46 +11,39 @@ hear MYNAME do |event|
   else
     resid = search_city_id(cityname)
     if resid.nil?
-      str += "「" + cityname + "」という都市の天気は見当たりませんでした。"
+      str += "「#{cityname}」という都市の天気は見当たりませんでした。"
       str += "例えば、県名を入れると、県庁所在地の天気を調べます。"
     else
-      response = conn.get do |request|
-        request.url ('/forecast/webservice/json/v1?city=' + resid)
-      end
-      json = JSON.parser.new(response.body).parse
+      json = make_weather_json(resid)
       str += otenki(json, 0)
       str += otenki(json, 1)
-      str += "お役に立つと幸いです。"
+      str += "もう、兄さんは忘れっぽいんだから…"
     end
   end
   say str, channel: event.channel
 end
 
-hear 'アイリテスト' do |event|
-  response = conn.get do |request|
-    request.url '/forecast/webservice/json/v1?city=130010'
-  end
-  json = JSON.parser.new(response.body).parse
-  str = "おはようございます、兄さん。" + otenki(json, 0) + "今日もいい日でありますように。"
-  say str, channel: event.channel
-end
-
 schedule '0 7 * * *' do
-  response = conn.get do |request|
-    request.url '/forecast/webservice/json/v1?city=130010'
-  end
-  json = JSON.parser.new(response.body).parse
+  json = make_weather_json("130010")
   str = "おはようございます、兄さん。" + otenki(json, 0) + "今日もいい日でありますように。"
   say str, channel: '#random'
 end
 
 schedule '0 19 * * *' do
-  response = conn.get do |request|
-    request.url '/forecast/webservice/json/v1?city=130010'
-  end
-  json = JSON.parser.new(response.body).parse
+  json = make_weather_json("130010")
   str = "こんばんは、兄さん。" + otenki(json, 1) + "今日もお勤め、お疲れ様でした。"
-  say str, channel: '#random'
+  say str, channel: '#bottest'
+end
+
+schedule '*/5 * * * *' do
+  t = rain_beginning()
+  raining = !(t.nil?)
+  if raining && !@now_raining
+    say "駒場では、#{t.strftime("%H時%M分")}から雨が降り出すようです。お気をつけて。", channel: '#random'
+  elsif !raining && @now_raining
+    say "駒場では、雨が止んだようですね。しばらく降らなそうです。", channel: '#bottest'
+  end
+  @now_raining = !(t.nil?)
 end
 
 # Slappy Examples
@@ -90,6 +51,7 @@ end
 # called when start up
 hello do
   puts 'successfly connected by airi'
+  @now_raining = !(rain_beginning().nil?)
 end
 #
 #
