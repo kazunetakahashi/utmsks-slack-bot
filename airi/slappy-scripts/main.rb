@@ -1,23 +1,33 @@
 # coding: utf-8
 
-@now_raining
+@now_raining = true
 
 hear MYNAME do |event|
-  p event.text
   str = "お呼びですか、兄さん。"
-  cityname = event.text[/「(.*)」/, 1]
-  if cityname.nil? || cityname == ''
-    str += "私に天気を尋ねる際は、「」の中に都市名を入れて尋ねてください。"
-  else
-    resid = search_city_id(cityname)
-    if resid.nil?
-      str += "「#{cityname}」という都市の天気は見当たりませんでした。"
-      str += "例えば、県名を入れると、県庁所在地の天気を調べます。"
+  if event.text.include?("雨")
+    t = rain_beginning()
+    if t.nil?
+      str += "駒場では、しばらく雨は降らなそうです。"
+    elsif t <= Time.now()
+      str += "駒場では、雨が降っています。お気をつけて。"
     else
-      json = make_weather_json(resid)
-      str += otenki(json, 0)
-      str += otenki(json, 1)
-      str += "もう、兄さんは忘れっぽいんだから…"
+      str += "駒場では、#{t.strftime("%H時%M分")}から雨が降り出すようです。お気をつけて。"
+    end
+  else
+    cityname = event.text[/「(.*)」/, 1]
+    if cityname.nil? || cityname == ''
+      str += "私に天気を尋ねる際は、「」の中に都市名を入れて尋ねてください。"
+    else
+      resid = search_city_id(cityname)
+      if resid.nil?
+        str += "「#{cityname}」という都市の天気は見当たりませんでした。"
+        str += "例えば、県名を入れると、県庁所在地の天気を調べます。"
+      else
+        json = make_weather_json(resid)
+        str += otenki(json, 0)
+        str += otenki(json, 1)
+        str += "もう、兄さんは忘れっぽいんだから…"
+      end
     end
   end
   say str, channel: event.channel
