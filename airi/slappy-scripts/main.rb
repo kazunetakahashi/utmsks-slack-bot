@@ -48,7 +48,8 @@ end
 schedule '*/5 * * * *' do
   t = rain_beginning()
   raining = !(t.nil?)
-  ch = (7 <= Time.now.hour && Time.now.hour < 22) ? '#random' : '#bottest'
+  ch = '#bottest'
+  # ch = (7 <= Time.now.hour && Time.now.hour < 22) ? '#random' : '#bottest'
   if raining && !@now_raining
     str = "駒場では、#{t.strftime("%H時%M分")}から雨が降り出すようです。お気をつけて。"
     say str, channel: ch

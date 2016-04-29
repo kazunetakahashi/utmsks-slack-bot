@@ -107,6 +107,19 @@ def syobocal_search(str)
   }
 end
 
+def slack_escape(str)
+  ans = str
+  chars = ['>', '\\`', '_', '\\*', '~', ':', ]
+  chars_r = ['>', '`', '_', '*', '~', ':', ]
+  chars.size.times{|i|
+    ch = chars[i]
+    ch_r = chars_r[i]
+    ans.gsub!(/#{ch}/, " #{ch_r} ")
+  }
+  ans.gsub!(/\s(?=\s)/, '')
+  return ans
+end
+
 def make_title(prog, need_day) # https://twitter.com/animekanto に合わせる
   if need_day
     res = format_daytime(prog[:st_time])
@@ -120,5 +133,5 @@ def make_title(prog, need_day) # https://twitter.com/animekanto に合わせる
   if prog[:sub_title] != ""
     res += "『#{prog[:sub_title]}』"
   end
-  return res
+  return slack_escape(res)
 end
