@@ -74,4 +74,4 @@
 
 Nokogiri の使い方は http://blog.takuros.net/entry/2014/04/15/070434 を参考にしました。
 
-モデル：http://dic.nicovideo.jp/a/%E8%8A%B1%E5%92%B2%E9%87%8C%E3%81%82%E3%81%95%E3%81%BF (題材的には http://dic.nicovideo.jp/a/%E6%98%9F%E5%AE%AE%E3%81%AF%E3%82%8B%E3%81%8B にするべきだったかもしれない)。当然ですが、この bot はこの版権元とは何ら関係ありません。
+モデル：http://activeraid.net/character/03/ (題材的には http://activeraid.net/character/04/ にするべきだったかもしれない)。当然ですが、この bot はこの版権元とは何ら関係ありません。
