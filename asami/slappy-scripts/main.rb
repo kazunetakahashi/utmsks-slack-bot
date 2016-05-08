@@ -3,7 +3,7 @@
 #
 # # called when start up
 
-@channel = '#bottest'
+@channel = '#random'
 
 hello do
   puts 'successfly connected by asami'
@@ -25,7 +25,10 @@ hear MYNAME do |event|
   end
   key = event.text[/「(.*)」/, 1]
   if key.nil?
-    say "私に要求はないのですか？ キーワードが「」に入っていないなんて認められません！", channel: event.channel
+    key = event.text[/【(.*)】/, 1]
+  end
+  if key.nil?
+    say "要求はないのですか？ キーワードが「」に入っていないなんて認められません！", channel: event.channel
   else
     lines = TrainLine::search_lines(key)
     if lines.size == 0
@@ -35,7 +38,7 @@ hear MYNAME do |event|
       lines.each{|line|
         str += "【#{line[:line_name]}】"
       }
-      str += "があります。私なら100％答えられます！ 一意に定まるように、また聞いて下さい。"
+      str += "があります。私なら100％答えられます！ 1つに絞ってまた聞いて下さい。"
       say str, channel: event.channel
     else
       if event.text.include?("追加")
@@ -45,6 +48,7 @@ hear MYNAME do |event|
           say TrainLine.new_id(lines.first[:line_id]).info(), channel: event.channel
         else
           say "That's no problem! 【#{lines.first[:line_name]}】は既に監視対象に入っています。", channel: event.channel
+          say TrainLine.new_id(lines.first[:line_id]).info(), channel: event.channel
         end
       elsif event.text.include?("削除")
         if TrainLine::delete_id(lines.first[:line_id])
@@ -78,7 +82,7 @@ schedule '*/5 * * * *' do
         say line.info, channel: @channel
       end
       if line.isnormal
-        say "もうダイヤは乱れませんから。本来の完璧な運行情報に戻ります。", channel: @channel
+        say "もうダイヤは乱れませんから。本来の完璧な運行に戻ります。", channel: @channel
       end
     end
   }
