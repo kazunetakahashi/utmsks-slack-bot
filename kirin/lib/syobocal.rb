@@ -88,7 +88,7 @@ end
 def syobocal_today_midnight()
   now = Time.now()
   start_time = Time.new(now.year, now.month, now.day, 21, 50)
-  if 5 < now.hour || now > start_time
+  if 5 > now.hour || now > start_time
     start_time = now
   end
   end_day = now.hour < 5 ? now : now + 1.days
