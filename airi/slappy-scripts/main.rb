@@ -1,6 +1,7 @@
 # coding: utf-8
 
 @now_raining = true
+@channel = '#bot'
 
 hear MYNAME do |event|
   str = "お呼びですか、兄さん。"
@@ -11,7 +12,7 @@ hear MYNAME do |event|
     elsif t <= Time.now()
       str += "駒場では、雨が降っています。お気をつけて。"
     else
-      str += "駒場では、#{t.strftime("%H時%M分")}から雨が降り出すようです。お気をつけて。"
+      str += "駒場では、#{t.strftime("%H時%M分")}から雨が降り出すようです。お気をつけて%。"
     end
   else
     cityname = event.text[/「(.*)」/, 1]
@@ -36,20 +37,20 @@ end
 schedule '0 7 * * *' do
   json = make_weather_json("130010")
   str = "おはようございます、兄さん。" + otenki(json, 0) + "今日もいい日でありますように。"
-  say str, channel: '#random'
+  say str, channel: @channel
 end
 
 schedule '0 19 * * *' do
   json = make_weather_json("130010")
   str = "こんばんは、兄さん。" + otenki(json, 1) + "今日もお勤め、お疲れ様でした。"
-  say str, channel: '#random'
+  say str, channel: @channel
 end
 
 schedule '*/5 * * * *' do
   t = rain_beginning()
   raining = !(t.nil?)
   ch = '#bottest'
-  # ch = (7 <= Time.now.hour && Time.now.hour < 22) ? '#random' : '#bottest'
+  # ch = (7 <= Time.now.hour && Time.now.hour < 22) ? @channel : '#bottest'
   if raining && !@now_raining
     str = "駒場では、#{t.strftime("%H時%M分")}から雨が降り出すようです。お気をつけて。"
     say str, channel: ch

@@ -3,7 +3,7 @@
 #
 # # called when start up
 
-@channel = '#random'
+@channel = '#bot'
 
 hello do
   puts 'successfly connected by asami'
