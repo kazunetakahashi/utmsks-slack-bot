@@ -15,14 +15,15 @@ hello do
 end
 
 schedule '* * * * *' do
-  puts "last time #{@last_time}"
-  tw = every_minutes(@last_time)
-  puts "tweets #{tw.size}"
+  # puts "last time #{@last_time}"
+  tw, @last_time = every_minutes(@last_time)
+  # puts "tweets #{tw.size}"
   if tw.empty?
     next
   end
   say "ツイート見つけました〜。奥さんって夫の浮気は一目で分かるんですよ？", channel: @channel
   tw.each{|t|
+    puts saying(t)
     say saying(t), channel: @channel
   }
 end

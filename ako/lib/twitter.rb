@@ -12,9 +12,9 @@ def every_minutes(lasttime)
     tw.created_at > lasttime
   }
   if !ret.empty?
-    lasttime = tweets.first.created_at
+    return ret.reverse, tweets.first.created_at
   end
-  return ret.reverse!
+  return ret.reverse, lasttime
 end
 
 def get_last_time()
@@ -32,9 +32,9 @@ def slack_escape(str)
   chars.size.times{|i|
     ch = chars[i]
     ch_r = chars_r[i]
-    ans.gsub!(/#{ch}/, " #{ch_r} ")
+    ans = ans.gsub(/#{ch}/, " #{ch_r} ") # strは凍結状態かもしれない
   }
-  ans.gsub!(/\s(?=\s)/, '')
+  ans = ans.gsub(/\s(?=\s)/, '')
   return ans
 end
 
