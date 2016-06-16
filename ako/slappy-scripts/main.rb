@@ -14,7 +14,7 @@ hello do
   @last_time = get_last_time()
 end
 
-schedule '* * * * *' do
+schedule '*/4 * * * *' do
   puts "last time #{@last_time}"
   tw, @last_time = every_minutes(@last_time)
   puts "tweets #{tw.size}"
