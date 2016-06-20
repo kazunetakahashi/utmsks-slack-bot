@@ -2,17 +2,20 @@
 # Slappy Examples
 #
 # # called when start up
-botnum = 0
+
+name = ["yoko", "futaba", "teru"]
+before = ["現在の時刻は", "今、", "今の時刻は"]
+after = ["ですわ。", "だよ。", "かな。"]
 
 hello do
-  puts 'successfly connected by yoko'
+  puts "successfly connected by #{name[BOTNUM]}"
 end
 
-schedule '*/5 * * * *' do
+schedule '* * * * *' do
   now = Time.now
-  if now.min % 15 == botnum * 5
-    str = "現在の時刻は" + now.strftime("%H時%M分") + "ですわ。"
-    say str, channel: '#botalive'      
+  if now.min % 3 == BOTNUM
+    str = before[BOTNUM] + now.strftime("%H時%M分") + after[BOTNUM]
+    say str, channel: '#botalive'
   end
 end
 
