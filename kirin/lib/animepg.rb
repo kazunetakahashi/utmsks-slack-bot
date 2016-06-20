@@ -207,7 +207,7 @@ class AnimePG
       end
       if (t = prog[:OffsetA]) != 0    
         char = ((t > 0) ? "遅れ" : "早く")
-        res += "※#{format_time(prog[:StTimeU] - t.min)}より#{t}分#{char}スタート"
+        res += "※#{format_time(prog[:StTimeU] - t.minutes)}より#{t}分#{char}スタート"
       end
       return slack_escape(res)
     end
