@@ -2,20 +2,28 @@
 
 hear MYNAME do |event|
   res = Ical.get_info(1)
-  say "こんばんは。明日開かれるコンテストは、", channel: event.channel
-  res.each{|str|
-    say str, channel: event.channel
-  }
-  say "でございます。がんばってくださいまし。", channel: event.channel
+  if res.empty?
+    say "こんばんは。明日はコンテストが開かれないようでございます。どうぞごゆっくり。", channel: event.channel
+  else
+    say "こんばんは。明日開かれるコンテストは、", channel: event.channel
+    res.each{|str|
+      say str, channel: event.channel
+    }
+    say "でございます。がんばってくださいまし。", channel: event.channel
+  end
 end
 
 schedule '0 20 * * *' do
   res = Ical.get_info(1)
-  say "こんばんは。明日開かれるコンテストは、", channel: '#bot'
-  res.each{|str|
-    say str, channel: '#bot'
-  }
-  say "でございます。がんばってくださいまし。", channel: '#bot'
+  if res.empty?
+    say "こんばんは。明日はコンテストが開かれないようでございます。どうぞごゆっくり。", channel: '#bot'
+  else
+    say "こんばんは。明日開かれるコンテストは、", channel: '#bot'
+    res.each{|str|
+      say str, channel: '#bot'
+    }
+    say "でございます。がんばってくださいまし。", channel: '#bot'
+  end
 end
 
 # Slappy Examples
