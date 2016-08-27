@@ -4,9 +4,6 @@ ignore.rb
 rsync_ignore.txt
 rsync.sh
 
-# wakaba is managed in a private repository.
-wakaba/
-
 # Ignore other unneeded files.
 doc/
 *.swp
