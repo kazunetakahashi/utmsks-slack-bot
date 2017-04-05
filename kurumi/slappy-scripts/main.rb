@@ -27,7 +27,7 @@ schedule '0 10 * * *' do
   }
 end
 
-schedule '45 18 * * *' do
+schedule '40 16 * * *' do
   @kobanashi.each{|sch|
     if time_match(sch[1], 7)
       say "<@#{sch[0]}> 来週の TA 小話、任せたぜ。", channel: '#ta_kobanashi'
@@ -50,7 +50,7 @@ schedule '0 10 * * *' do
   }
 end
 
-schedule '45 18 * * *' do
+schedule '40 16 * * *' do
   @lectures.each{|sch|
     if time_match(sch[1], 0)
       str = "<!channel> #{sch[1].strftime('%m月%d日')}の実習の進捗を書こう。"
